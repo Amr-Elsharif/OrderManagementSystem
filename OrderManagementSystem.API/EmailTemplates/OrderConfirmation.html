@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - #{{OrderId}}</title>
+    <style>
+        /* CSS styles for beautiful email template */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .email-wrapper {
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .content {
+            background: #f9f9f9;
+            padding: 40px 30px;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .button {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <h1 style="color: #2c3e50; margin: 0;">🎉 Order Confirmed!</h1>
+                <p style="color: #7f8c8d;">Thank you for your purchase, {{CustomerName}}!</p>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="order-card">
+                    <h2 style="color: #2c3e50; border-bottom: 2px solid #4CAF50; padding-bottom: 10px;">
+                        Order #{{OrderId}}
+                    </h2>
+
+                    <p><strong>Order Date:</strong> {{OrderDate}}</p>
+                    <p><strong>Status:</strong> <span style="color: #4CAF50; font-weight: bold;">Processing</span></p>
+
+                    <h3 style="color: #2c3e50; margin-top: 30px;">Order Summary</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Product</th>
+                                <th style="padding: 12px; text-align: center; border-bottom: 2px solid #ddd;">Qty</th>
+                                <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd;">Price</th>
+                                <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{OrderItems}}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="padding: 12px; text-align: right; font-weight: bold;">Total:</td>
+                                <td style="padding: 12px; text-align: right; font-weight: bold; font-size: 18px; color: #4CAF50;">
+                                    {{TotalAmount}}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <h3 style="color: #2c3e50; margin-top: 30px;">Shipping Information</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                        {{ShippingAddress}}
+                    </div>
+
+                    <p><strong>Tracking Number:</strong> {{TrackingNumber}}</p>
+                    <p><strong>Estimated Delivery:</strong> {{EstimatedDelivery}}</p>
+
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="{{OrderTrackingUrl}}" class="button">Track Your Order</a>
+                    </div>
+                </div>
+
+                <p style="text-align: center; color: #7f8c8d; font-size: 14px;">
+                    Need help? Contact our support team at support@ordermanagement.com
+                </p>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p style="margin: 0 0 10px 0;">Order Management System</p>
+                <p style="margin: 0; font-size: 12px; opacity: 0.8;">
+                    This is an automated email. Please do not reply to this message.<br>
+                    &copy; 2024 Order Management System. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

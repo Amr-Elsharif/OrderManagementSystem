@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Low Stock Report - {{ReportDate}}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .summary {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .critical {
+            background-color: #f8d7da;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Bulk Low Stock Report</h1>
+            <p>Inventory Management System</p>
+        </div>
+
+        <div class="content">
+            <div class="summary">
+                <h2>Report Summary</h2>
+                <p><strong>Report Date:</strong> {{ReportDate}}</p>
+                <p><strong>Total Products Reported:</strong> {{TotalProducts}}</p>
+            </div>
+
+            <h2>Low Stock Products</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>SKU</th>
+                        <th>Category</th>
+                        <th>Current Stock</th>
+                        <th>Min Threshold</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{LowStockItems}}
+                </tbody>
+            </table>
+
+            <div style="margin: 30px 0; padding: 20px; background: #d1ecf1; border-radius: 5px;">
+                <h3>Legend</h3>
+                <p><span style="background: #f8d7da; padding: 5px; border-radius: 3px;">Red</span> = Out of Stock (0 units)</p>
+                <p><span style="background: #fff3cd; padding: 5px; border-radius: 3px;">Yellow</span> = Low Stock (below threshold)</p>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 5px;">
+                <h3>Recommendations</h3>
+                <ul>
+                    <li>Prioritize restocking for critical (red) items first</li>
+                    <li>Review sales velocity for each product</li>
+                    <li>Consider adjusting minimum thresholds based on historical data</li>
+                    <li>Check supplier lead times for affected products</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Order Management System - Inventory Reports</p>
+            <p>Generated automatically on {{ReportDate}}</p>
+        </div>
+    </div>
+</body>
+</html>

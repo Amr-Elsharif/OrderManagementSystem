@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low Stock Alert - {{ProductName}}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .alert-card {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .product-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stock-critical {
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚠️ Low Stock Alert</h1>
+        </div>
+
+        <div class="content">
+            <div class="alert-card">
+                <h2>{{ProductName}}</h2>
+                <p>This product is running low on stock and requires attention.</p>
+            </div>
+
+            <div class="product-details">
+                <h3>Product Details</h3>
+                <p><strong>SKU:</strong> {{Sku}}</p>
+                <p><strong>Category:</strong> {{Category}}</p>
+                <p><strong>Product ID:</strong> {{ProductId}}</p>
+
+                <h3>Stock Information</h3>
+                <p><strong>Current Stock:</strong> <span class="stock-critical">{{CurrentStock}}</span></p>
+                <p><strong>Minimum Threshold:</strong> {{MinThreshold}}</p>
+                <p><strong>Alert Date:</strong> {{AlertDate}}</p>
+            </div>
+
+            <div style="background: #e9ecef; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h3>Recommended Action</h3>
+                <p>Please review this product and consider:</p>
+                <ul>
+                    <li>Placing a restock order with the supplier</li>
+                    <li>Adjusting minimum stock thresholds if needed</li>
+                    <li>Reviewing sales forecasts for this product</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Order Management System - Inventory Alerts</p>
+            <p>This is an automated alert. Please take appropriate action.</p>
+        </div>
+    </div>
+</body>
+</html>

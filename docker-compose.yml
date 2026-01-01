@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: order-management-sql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Amr@123"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - order-management-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: order-management-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - order-management-network
+
+  # RabbitMQ Message Broker
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: order-management-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI port
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - order-management-network
+
+  # Redis Commander (Web UI for Redis)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: order-management-redis-commander
+    environment:
+      REDIS_HOSTS: local:redis:6379
+      HTTP_USER: root
+      HTTP_PASSWORD: root
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - order-management-network
+
+  # .NET API Application
+  api:
+    build:
+      context: .
+      dockerfile: src/OrderManagementSystem.API/Dockerfile
+    container_name: order-management-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+      ConnectionStrings__DefaultConnection: "Server=.;Database=OrderManagementSystem;Integrated Security=True;TrustServerCertificate=true;"
+      ConnectionStrings__Redis: "redis:6379"
+      RabbitMQ__Host: "rabbitmq"
+      RabbitMQ__VirtualHost: "/"
+      RabbitMQ__Username: "admin"
+      RabbitMQ__Password: "admin123"
+      Email__SmtpServer: "smtp.gmail.com"
+      Email__SmtpPort: "587"
+      Email__EnableSsl: "true"
+      Email__Username: "AmrElsharif"
+      Email__Password: "Amr@123"
+      Email__FromEmail: "noreply@ordermanagement.com"
+      Email__FromName: "Order Management System"
+      Email__AdminEmails: "amrelsharif9@gmail.com"
+      Email__IsDevelopmentMode: "true"
+      Email__SendEmailsInDevelopment: "false"
+    ports:
+      - "5000:80"
+      - "5001:443"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./logs:/app/logs
+      - ./EmailTemplates:/app/EmailTemplates
+    networks:
+      - order-management-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
